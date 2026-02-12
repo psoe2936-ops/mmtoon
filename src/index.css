@@ -1,1 +1,18 @@
 @import "tailwindcss";
+
+/* src/index.css or global styles */
+body {
+  @apply bg-gray-950 text-gray-100;
+  margin: 0;
+  font-family: system-ui, sans-serif;
+}
+
+/* Or even darker */
+.bg-mm-dark {
+  @apply bg-black;
+}
+
+/* With very subtle gradient for hero sections (optional) */
+.bg-gradient-hero {
+  background: linear-gradient(to bottom, #000000, #0f0f0f);
+}
