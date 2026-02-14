@@ -48,7 +48,9 @@ const Navbar = () => {
       </div>
 
       {/* Mobile Menu */}
+
       <div className={`md:hidden overflow-hidden transition-all duration-300 ${isMenuOpen ? 'max-h-64' : 'max-h-0'}`}>
+        
         <div className="flex flex-col gap-4 px-6 pb-6 text-slate-300">
           <div className="hover:text-white transition duration-300 cursor-pointer py-2">
             ပင်မစာမျက်နှာ
@@ -63,7 +65,10 @@ const Navbar = () => {
             Login
           </button>
         </div>
+
       </div>
+
+
     </nav>
   )
 }
