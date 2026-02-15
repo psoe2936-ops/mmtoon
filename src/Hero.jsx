@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useBooks } from "./data/bookStore";
 import { useLanguage } from "./context/LanguageContext";
+import { toAssetUrl } from "./utils/assetUrl";
 
 const Hero = () => {
   const books = useBooks();
@@ -56,7 +57,7 @@ const Hero = () => {
             <div className="absolute h-72 w-72 rounded-full bg-fuchsia-500/30 blur-3xl"></div>
 
             <img
-              src={featuredCover}
+              src={toAssetUrl(featuredCover)}
               alt="Featured Manga"
               className="relative w-64 md:w-80 rounded-2xl shadow-2xl hover:scale-105 transition duration-500"
             />

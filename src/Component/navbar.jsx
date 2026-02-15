@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useLanguage } from "../context/LanguageContext";
+import { toAssetUrl } from "../utils/assetUrl";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -19,7 +20,7 @@ const Navbar = () => {
     <nav className="sticky top-0 z-50 border-b border-white/10 bg-black/40 backdrop-blur-xl">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
         <Link to="/" className="flex items-center">
-          <img src="/image.jpg-removebg-preview.png" className="w-[5.6rem] cursor-pointer" alt="Logo" />
+          <img src={toAssetUrl("/image.jpg-removebg-preview.png")} className="w-[5.6rem] cursor-pointer" alt="Logo" />
           <span className="-ml-3 text-lg font-bold tracking-wide text-white">InkVerse</span>
         </Link>
 

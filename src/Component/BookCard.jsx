@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useLanguage } from "../context/LanguageContext";
+import { toAssetUrl } from "../utils/assetUrl";
 
 const statusClass = {
   Ongoing: "bg-emerald-500/20 text-emerald-200 border-emerald-400/30",
@@ -22,7 +23,7 @@ const BookCard = ({ book, compact = false }) => {
     >
       <div className={compact ? "aspect-[3/4] overflow-hidden" : "aspect-[4/5] overflow-hidden"}>
         <img
-          src={book.cover}
+          src={toAssetUrl(book.cover)}
           alt={book.title}
           className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
           loading="lazy"

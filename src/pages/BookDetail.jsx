@@ -2,6 +2,7 @@ import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useBooks } from "../data/bookStore";
 import { useAuth } from "../context/AuthContext";
 import { useLanguage } from "../context/LanguageContext";
+import { toAssetUrl } from "../utils/assetUrl";
 
 const BookDetail = () => {
   const { id } = useParams();
@@ -41,7 +42,7 @@ const BookDetail = () => {
   return (
     <main className="mx-auto max-w-7xl space-y-8 px-6 py-8 pb-24 md:pb-10">
       <section className="grid gap-6 rounded-3xl border border-white/10 bg-black/40 p-6 md:grid-cols-[320px_1fr]">
-        <img src={book.cover} alt={book.title} className="w-full rounded-2xl border border-white/10 bg-black/40" />
+        <img src={toAssetUrl(book.cover)} alt={book.title} className="w-full rounded-2xl border border-white/10 bg-black/40" />
 
         <div className="space-y-4">
           <h1 className="text-3xl font-bold text-white">{book.title}</h1>

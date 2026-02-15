@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useBooks } from "../data/bookStore";
 import { useLanguage } from "../context/LanguageContext";
+import { toAssetUrl } from "../utils/assetUrl";
 
 const Reader = () => {
   const { bookId, chapterId } = useParams();
@@ -62,7 +63,7 @@ const Reader = () => {
         {chapter.pages.map((page, index) => (
           <img
             key={page}
-            src={page}
+            src={toAssetUrl(page)}
             alt={`${chapter.title} page ${index + 1}`}
             className="w-full rounded-lg border border-white/10"
             loading="lazy"
