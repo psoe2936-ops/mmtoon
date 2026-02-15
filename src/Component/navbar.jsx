@@ -1,76 +1,139 @@
-import React, { useState } from 'react'
+import { useState } from "react";
+import { Link, NavLink } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import { useLanguage } from "../context/LanguageContext";
 
 const Navbar = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { user, logout, isAdmin } = useAuth();
+  const { t, toggleLanguage } = useLanguage();
+  const navItems = [
+    { label: t("nav.home"), to: "/" },
+    { label: t("nav.books"), to: "/book" },
+    { label: t("nav.search"), to: "/search" },
+    { label: t("nav.admin"), to: "/admin" },
+  ];
+  const visibleNavItems = navItems.filter((item) => item.to !== "/admin" || isAdmin);
 
   return (
     <nav className="sticky top-0 z-50 border-b border-white/10 bg-black/40 backdrop-blur-xl">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-        
-        {/* Logo */}
-        <div className="flex items-center">
-          <img src="./public/image.jpg-removebg-preview.png" className="w-[5.6rem] cursor-pointer" alt="Logo" />
-          <span className="text-lg font-bold tracking-wide text-white ml-[-14px]">
-            InkVerse
-          </span>
+        <Link to="/" className="flex items-center">
+          <img src="/image.jpg-removebg-preview.png" className="w-[5.6rem] cursor-pointer" alt="Logo" />
+          <span className="-ml-3 text-lg font-bold tracking-wide text-white">InkVerse</span>
+        </Link>
+
+        <div className="hidden items-center gap-10 text-sm text-slate-300 md:flex">
+          {visibleNavItems.map((item) => (
+            <NavLink
+              key={item.to}
+              to={item.to}
+              className={({ isActive }) =>
+                `transition duration-300 ${isActive ? "text-white" : "hover:text-white"}`
+              }
+            >
+              {item.label}
+            </NavLink>
+          ))}
         </div>
 
-        {/* Desktop Links */}
-        <div className="hidden md:flex items-center gap-10 text-sm text-slate-300">
-          <div className="relative hover:text-white transition duration-300 cursor-pointer">
-            ပင်မစာမျက်နှာ
-          </div>
-          <div className="relative hover:text-white transition duration-300 cursor-pointer">
-            စာအုပ်များ
-          </div>
-          <div className="relative hover:text-white transition duration-300 cursor-pointer">
-            ရှာဖွေရန်
-          </div>
-        </div>
-
-        {/* Right Side - Desktop Login */}
-        <div className="hidden md:flex items-center gap-4">
-          <button className="rounded-full bg-gradient-to-r from-fuchsia-500 to-cyan-400 px-4 py-2 text-sm font-semibold text-black shadow-md hover:opacity-90 transition cursor-pointer">
-            Login
+        <div className="hidden items-center gap-4 md:flex">
+          <button
+            onClick={toggleLanguage}
+            className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs font-semibold text-white transition hover:bg-white/10"
+          >
+            {t("nav.language")}
           </button>
+
+          {user ? (
+            <button
+              onClick={logout}
+              className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-white transition hover:bg-white/10"
+            >
+              {t("nav.logout")}
+            </button>
+          ) : (
+            <Link
+              to="/login"
+              className="rounded-full bg-gradient-to-r from-fuchsia-500 to-cyan-400 px-4 py-2 text-sm font-semibold text-black shadow-md transition hover:opacity-90"
+            >
+              {t("nav.login")}
+            </Link>
+          )}
         </div>
 
-        {/* Mobile Menu Button */}
-        <button 
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="md:hidden flex flex-col gap-1.5 p-2"
+        <button
+          onClick={() => setIsMenuOpen((prev) => !prev)}
+          className="flex flex-col gap-1.5 p-2 md:hidden"
           aria-label="Toggle menu"
         >
-          <span className={`w-6 h-0.5 bg-white transition-all duration-300 ${isMenuOpen ? 'rotate-45 translate-y-2' : ''}`}></span>
-          <span className={`w-6 h-0.5 bg-white transition-all duration-300 ${isMenuOpen ? 'opacity-0' : ''}`}></span>
-          <span className={`w-6 h-0.5 bg-white transition-all duration-300 ${isMenuOpen ? '-rotate-45 -translate-y-2' : ''}`}></span>
+          <span
+            className={`h-0.5 w-6 bg-white transition-all duration-300 ${
+              isMenuOpen ? "translate-y-2 rotate-45" : ""
+            }`}
+          />
+          <span
+            className={`h-0.5 w-6 bg-white transition-all duration-300 ${
+              isMenuOpen ? "opacity-0" : ""
+            }`}
+          />
+          <span
+            className={`h-0.5 w-6 bg-white transition-all duration-300 ${
+              isMenuOpen ? "-translate-y-2 -rotate-45" : ""
+            }`}
+          />
         </button>
       </div>
 
-      {/* Mobile Menu */}
-
-      <div className={`md:hidden overflow-hidden transition-all duration-300 ${isMenuOpen ? 'max-h-64' : 'max-h-0'}`}>
-        
-        <div className="flex flex-col gap-4 px-6 pb-6 text-slate-300">
-          <div className="hover:text-white transition duration-300 cursor-pointer py-2">
-            ပင်မစာမျက်နှာ
-          </div>
-          <div className="hover:text-white transition duration-300 cursor-pointer py-2">
-            စာအုပ်များ
-          </div>
-          <div className="hover:text-white transition duration-300 cursor-pointer py-2">
-            ရှာဖွေရန်
-          </div>
-          <button className="rounded-full bg-gradient-to-r from-fuchsia-500 to-cyan-400 px-4 py-2 text-sm font-semibold text-black shadow-md hover:opacity-90 transition cursor-pointer w-full">
-            Login
+      <div
+        className={`overflow-hidden transition-all duration-300 md:hidden ${
+          isMenuOpen ? "max-h-72" : "max-h-0"
+        }`}
+      >
+        <div className="flex flex-col gap-3 px-6 pb-6 text-slate-300">
+          <button
+            onClick={toggleLanguage}
+            className="w-full rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-white transition hover:bg-white/10"
+          >
+            {t("nav.language")}
           </button>
+
+          {visibleNavItems.map((item) => (
+            <NavLink
+              key={item.to}
+              to={item.to}
+              onClick={() => setIsMenuOpen(false)}
+              className={({ isActive }) =>
+                `cursor-pointer py-2 transition duration-300 ${isActive ? "text-white" : "hover:text-white"}`
+              }
+            >
+              {item.label}
+            </NavLink>
+          ))}
+
+          {user ? (
+            <button
+              onClick={() => {
+                logout();
+                setIsMenuOpen(false);
+              }}
+              className="w-full rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-white transition hover:bg-white/10"
+            >
+              {t("nav.logout")}
+            </button>
+          ) : (
+            <Link
+              to="/login"
+              onClick={() => setIsMenuOpen(false)}
+              className="w-full rounded-full bg-gradient-to-r from-fuchsia-500 to-cyan-400 px-4 py-2 text-center text-sm font-semibold text-black shadow-md transition hover:opacity-90"
+            >
+              {t("nav.login")}
+            </Link>
+          )}
         </div>
-
       </div>
-
-
     </nav>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;
