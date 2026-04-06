@@ -1,0 +1,1 @@
+import{r as e,i,o as u,e as b,l as f,m as d,f as n}from"./index-DPmphvGW.js";const m=async s=>{if(!s)return;const o=b(n,"books",s);await f(o,{views:d(1)})},l=()=>{const[s,o]=e.useState([]);return e.useEffect(()=>{const a=i(n,"books");return u(a,c=>{const r=c.docs.map(t=>({id:t.id,...t.data()}));o(r)})},[]),s};export{m as i,l as u};
